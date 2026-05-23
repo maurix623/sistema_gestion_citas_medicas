@@ -5,6 +5,7 @@ import { Usuario } from './entities/usuario.entity';
 import { Rol } from 'src/rol/entities/rol.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuarioService {
@@ -14,7 +15,14 @@ export class UsuarioService {
 
     @InjectRepository(Rol)
     private readonly rolRepo: Repository<Rol>,
-  ) {}
+  ) {};
+
+  async findByCorreo(correo: string){
+    return await this.usuarioRepo.findOne({
+      where: {correo},
+      relations: {rol:true}
+    })
+  }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     const rol = await this.rolRepo.findOne({
@@ -25,8 +33,11 @@ export class UsuarioService {
       throw new NotFoundException('Rol no encontrado');
     }
 
+    const passwordHash = await bcrypt.hash(createUsuarioDto.password, 10);
+
     const usuario = this.usuarioRepo.create({
       ...createUsuarioDto,
+      password: passwordHash,
       rol,  //typeORM trabaja con objetos relacionados
     });
     return await this.usuarioRepo.save(usuario);
@@ -60,3 +71,4 @@ export class UsuarioService {
     return await this.usuarioRepo.softDelete(usuario.id_usuario);
   }
 }
+ 

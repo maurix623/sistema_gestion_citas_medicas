@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolModule } from './rol/rol.module';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RolModule } from './rol/rol.module';
       synchronize: true, // Sincroniza la base de datos con las entidades 
     }),
     RolModule,
+    UsuarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

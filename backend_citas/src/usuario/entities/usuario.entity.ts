@@ -12,6 +12,7 @@ import {
   JoinColumn,
   OneToOne
 } from 'typeorm';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 
 @Entity()
 export class Usuario {
@@ -49,4 +50,7 @@ export class Usuario {
 
   @OneToOne(() => Doctor, (doctor) => doctor.usuario)
   doctor: Doctor;
+
+  @OneToOne(()=>Paciente, (paciente)=>paciente.usuario)
+  paciente: Paciente;
 }

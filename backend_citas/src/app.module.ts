@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { EspecialidadModule } from './especialidad/especialidad.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DoctorModule } from './doctor/doctor.module';
+import { PacienteModule } from './paciente/paciente.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DoctorModule } from './doctor/doctor.module';
     AuthModule,
     EspecialidadModule,
     DoctorModule,
+    PacienteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Rol } from 'src/rol/entities/rol.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 import {
   Column,
   Entity,
@@ -9,6 +10,7 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne
 } from 'typeorm';
 
 @Entity()
@@ -44,4 +46,7 @@ export class Usuario {
   @ManyToOne(() => Rol, (rol) => rol.usuario)
   @JoinColumn({ name: 'id_rol' })
   rol: Rol;
+
+  @OneToOne(() => Doctor, (doctor) => doctor.usuario)
+  doctor: Doctor;
 }

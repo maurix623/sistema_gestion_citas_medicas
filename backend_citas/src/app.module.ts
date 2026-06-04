@@ -7,6 +7,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { AuthModule } from './auth/auth.module';
 import { EspecialidadModule } from './especialidad/especialidad.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DoctorModule } from './doctor/doctor.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UsuarioModule,
     AuthModule,
     EspecialidadModule,
+    DoctorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

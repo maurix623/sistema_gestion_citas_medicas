@@ -44,7 +44,7 @@ export class Usuario {
   @DeleteDateColumn()
   eliminadoEn: Date;
 
-  @ManyToOne(() => Rol, (rol) => rol.usuario)
+  @ManyToOne(() => Rol, (rol) => rol.usuarios)
   @JoinColumn({ name: 'id_rol' })
   rol: Rol;
 

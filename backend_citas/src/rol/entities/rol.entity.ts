@@ -10,5 +10,5 @@ export class Rol {
     nombre_rol: String;
 
     @OneToMany(()=> Usuario, (usuario)=>usuario.rol)
-    usuario: Usuario[];
+    usuarios: Usuario[];
 }

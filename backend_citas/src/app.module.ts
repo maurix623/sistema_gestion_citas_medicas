@@ -9,6 +9,7 @@ import { EspecialidadModule } from './especialidad/especialidad.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DoctorModule } from './doctor/doctor.module';
 import { PacienteModule } from './paciente/paciente.module';
+import { HorarioAtencionModule } from './horario_atencion/horario_atencion.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PacienteModule } from './paciente/paciente.module';
     EspecialidadModule,
     DoctorModule,
     PacienteModule,
+    HorarioAtencionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

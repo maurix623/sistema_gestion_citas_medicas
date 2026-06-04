@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DoctorModule } from './doctor/doctor.module';
 import { PacienteModule } from './paciente/paciente.module';
 import { HorarioAtencionModule } from './horario_atencion/horario_atencion.module';
+import { ConsultorioModule } from './consultorio/consultorio.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { HorarioAtencionModule } from './horario_atencion/horario_atencion.modul
     DoctorModule,
     PacienteModule,
     HorarioAtencionModule,
+    ConsultorioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

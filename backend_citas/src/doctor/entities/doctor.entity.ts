@@ -2,6 +2,7 @@ import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Especialidad } from "src/especialidad/entities/especialidad.entity";
 import { HorarioAtencion } from "src/horario_atencion/entities/horario_atencion.entity";
+import { Consultorio } from "src/consultorio/entities/consultorio.entity";
 
 @Entity()
 export class Doctor {
@@ -33,4 +34,8 @@ export class Doctor {
 
     @OneToMany(() => HorarioAtencion, (horario) => horario.doctor)
     horarios: HorarioAtencion[];
+
+    @ManyToOne(() => Consultorio, (consultorio) => consultorio.doctores)
+    @JoinColumn({ name: 'id_consultorio' })
+    consultorio: Consultorio;
 }

@@ -15,6 +15,10 @@ export class CreateDoctorDto {
   @IsNotEmpty()
   id_especialidad: number;
 
+  @IsInt()
+  @IsNotEmpty()
+  id_consultorio: number;
+
   @IsString()
   @IsNotEmpty()
   matricula: string;

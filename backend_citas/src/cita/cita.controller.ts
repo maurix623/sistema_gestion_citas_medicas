@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { CitaService } from './cita.service';
 import { CreateCitaDto } from './dto/create-cita.dto';
 import { UpdateCitaDto } from './dto/update-cita.dto';
@@ -15,6 +25,17 @@ export class CitaController {
   @Get()
   findAll() {
     return this.citaService.findAll();
+  }
+
+  @Get('horarios-disponibles')
+  obtenerHorariosDisponibles(
+    @Query('idDoctor', ParseIntPipe)
+    idDoctor: number,
+
+    @Query('fecha')
+    fecha: string,
+  ) {
+    return this.citaService.obtenerHorariosDisponibles(idDoctor, fecha);
   }
 
   @Get(':id')

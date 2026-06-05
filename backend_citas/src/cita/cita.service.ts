@@ -274,4 +274,70 @@ export class CitaService {
 
     return await this.citaRepo.softDelete(cita.id_cita);
   }
+
+  async obtenerHorariosDisponibles(idDoctor: number, fecha: string) {
+    const doctor = await this.doctorRepo.findOne({
+      where: {
+        id_doctor: idDoctor,
+      },
+    });
+
+    if (!doctor) {
+      throw new NotFoundException('Doctor no encontrado');
+    }
+
+    const fechaCita = this.convertirFechaLocal(fecha);
+
+    const diaSemana = this.obtenerDiaSemana(fechaCita);
+
+    const horario = await this.horarioRepo.findOne({
+      where: {
+        doctor: {
+          id_doctor: idDoctor,
+        },
+        dia_semana: diaSemana,
+      },
+    });
+
+    if (!horario) {
+      return {
+        doctor: idDoctor,
+        fecha,
+        horarios_disponibles: [],
+      };
+    }
+
+    const horaInicio = this.normalizarHora(horario.hora_inicio);
+
+    const horaFin = this.normalizarHora(horario.hora_fin);
+
+    const slots = this.generarSlots(
+      horaInicio,
+      horaFin,
+      horario.duracion_cita_minutos,
+    );
+
+    const citasReservadas = await this.citaRepo.find({
+      where: {
+        doctor: {
+          id_doctor: idDoctor,
+        },
+        fecha,
+      },
+    });
+
+    const horasOcupadas = citasReservadas.map((cita) =>
+      this.normalizarHora(cita.hora),
+    );
+
+    const horariosDisponibles = slots.filter(
+      (slot) => !horasOcupadas.includes(slot),
+    );
+
+    return {
+      doctor: idDoctor,
+      fecha,
+      horarios_disponibles: horariosDisponibles,
+    };
+  }
 }

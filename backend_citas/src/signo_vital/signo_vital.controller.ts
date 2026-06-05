@@ -27,8 +27,5 @@ export class SignoVitalController {
     return this.signoVitalService.update(+id, updateSignoVitalDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.signoVitalService.remove(+id);
-  }
+
 }

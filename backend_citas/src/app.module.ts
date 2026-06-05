@@ -13,6 +13,7 @@ import { HorarioAtencionModule } from './horario_atencion/horario_atencion.modul
 import { ConsultorioModule } from './consultorio/consultorio.module';
 import { CitaModule } from './cita/cita.module';
 import { SignoVitalModule } from './signo_vital/signo_vital.module';
+import { HistoriaClinicaModule } from './historia_clinica/historia_clinica.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { SignoVitalModule } from './signo_vital/signo_vital.module';
     ConsultorioModule,
     CitaModule,
     SignoVitalModule,
+    HistoriaClinicaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

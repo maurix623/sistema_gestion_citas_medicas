@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SignoVital } from './entities/signo_vital.entity';
 import { Repository } from 'typeorm';
 import { Cita } from 'src/cita/entities/cita.entity';
+import { EstadoCita } from 'src/cita/enums/estado-cita.enums';
 
 @Injectable()
 export class SignoVitalService {
@@ -25,6 +26,12 @@ export class SignoVitalService {
       where: { id_cita: createSignoVitalDto.id_cita },
     });
     if (!cita) throw new NotFoundException('Cita no encontrada');
+
+    if (cita.estado !== EstadoCita.ATENDIDA) {
+      throw new ConflictException(
+        'La cita debe estar ATENDIDA para registrar signos vitales',
+      );
+    }
 
     const signoExistente = await this.signoVitalRepo.findOne({
       where: { cita: { id_cita: createSignoVitalDto.id_cita } },
@@ -67,8 +74,4 @@ export class SignoVitalService {
     return await this.signoVitalRepo.save(signoVital);
   }
 
-  async remove(id: number) {
-    const signoVital = await this.findOne(id);
-    return await this.signoVitalRepo.delete(signoVital.id_signo)
-  }
 }

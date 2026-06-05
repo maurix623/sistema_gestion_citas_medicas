@@ -14,6 +14,7 @@ import { ConsultorioModule } from './consultorio/consultorio.module';
 import { CitaModule } from './cita/cita.module';
 import { SignoVitalModule } from './signo_vital/signo_vital.module';
 import { HistoriaClinicaModule } from './historia_clinica/historia_clinica.module';
+import { LogsAccesoModule } from './logs_acceso/logs_acceso.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { HistoriaClinicaModule } from './historia_clinica/historia_clinica.modul
     CitaModule,
     SignoVitalModule,
     HistoriaClinicaModule,
+    LogsAccesoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

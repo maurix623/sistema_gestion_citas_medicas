@@ -10,9 +10,11 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne
+  OneToOne,
+  OneToMany,
 } from 'typeorm';
 import { Paciente } from 'src/paciente/entities/paciente.entity';
+import { LogAcceso } from 'src/logs_acceso/entities/logs_acceso.entity';
 
 @Entity()
 export class Usuario {
@@ -29,7 +31,7 @@ export class Usuario {
   correo: string;
 
   @Exclude()
-  @Column({length: 255,})
+  @Column({ length: 255 })
   password: string;
 
   @Column()
@@ -51,6 +53,9 @@ export class Usuario {
   @OneToOne(() => Doctor, (doctor) => doctor.usuario)
   doctor: Doctor;
 
-  @OneToOne(()=>Paciente, (paciente)=>paciente.usuario)
+  @OneToOne(() => Paciente, (paciente) => paciente.usuario)
   paciente: Paciente;
+
+  @OneToMany(() => LogAcceso, (log) => log.usuario)
+  logsAcceso: LogAcceso[];
 }

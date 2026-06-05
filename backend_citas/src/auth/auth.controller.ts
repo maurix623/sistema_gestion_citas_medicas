@@ -22,4 +22,10 @@ export class AuthController {
     getPerfil(@Request() req){
         return req.user; 
     }
+
+    @Post('logout')
+    @UseGuards(JwtAuthGuard)
+    logout(@Request() req,) {
+        return this.authService.logout(req.user,req);
+}
 }

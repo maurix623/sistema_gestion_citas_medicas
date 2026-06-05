@@ -33,4 +33,13 @@ export class AuthService {
 
     return {access_token: token};
     }
+
+    async logout(usuario: any, req: any) {
+        const ip = req.ip;
+        const browser =req.headers['user-agent'] ?? 'Desconocido';
+
+        await this.logsAccesoServ.registrarEvento(usuario.sub,ip,browser,EventoAcceso.SALIDA);
+    
+        return {message: 'Sesión cerrada correctamente'};
+    }
 }

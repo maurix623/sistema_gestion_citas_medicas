@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, OneToOne } from "typeorm";
 import { EstadoCita } from "../enums/estado-cita.enums";
 import { Paciente } from "src/paciente/entities/paciente.entity";
 import { Doctor } from "src/doctor/entities/doctor.entity";
+import { SignoVital } from "src/signo_vital/entities/signo_vital.entity";
 
 @Entity()
 export class Cita {
@@ -36,4 +37,7 @@ export class Cita {
     @ManyToOne(()=>Doctor, (doctor)=>doctor.citas)
     @JoinColumn({ name: 'id_doctor' })
     doctor: Doctor;
+
+    @OneToOne(()=>SignoVital, (signoVital)=>signoVital.cita)
+    signoVital: SignoVital
 }

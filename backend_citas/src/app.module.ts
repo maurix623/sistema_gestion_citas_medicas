@@ -12,6 +12,7 @@ import { PacienteModule } from './paciente/paciente.module';
 import { HorarioAtencionModule } from './horario_atencion/horario_atencion.module';
 import { ConsultorioModule } from './consultorio/consultorio.module';
 import { CitaModule } from './cita/cita.module';
+import { SignoVitalModule } from './signo_vital/signo_vital.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CitaModule } from './cita/cita.module';
     HorarioAtencionModule,
     ConsultorioModule,
     CitaModule,
+    SignoVitalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

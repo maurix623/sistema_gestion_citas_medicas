@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGe
 import { Especialidad } from "src/especialidad/entities/especialidad.entity";
 import { HorarioAtencion } from "src/horario_atencion/entities/horario_atencion.entity";
 import { Consultorio } from "src/consultorio/entities/consultorio.entity";
+import { Cita } from "src/cita/entities/cita.entity";
 
 @Entity()
 export class Doctor {
@@ -38,4 +39,7 @@ export class Doctor {
     @ManyToOne(() => Consultorio, (consultorio) => consultorio.doctores)
     @JoinColumn({ name: 'id_consultorio' })
     consultorio: Consultorio;
+
+    @OneToMany(()=>Cita,(cita)=>cita.doctor)
+    citas: Cita[];
 }

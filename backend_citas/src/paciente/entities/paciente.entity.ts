@@ -1,3 +1,4 @@
+import { Cita } from 'src/cita/entities/cita.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 import {
@@ -9,6 +10,7 @@ import {
   DeleteDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -29,7 +31,8 @@ export class Paciente {
   alergias: string;
 
   @Column({
-    nullable: true,
+    type: 'date',
+    nullable: true
   })
   fecha_nacimiento: Date;
 
@@ -51,4 +54,7 @@ export class Paciente {
   @OneToOne(() => Usuario, (usuario) => usuario.paciente)
   @JoinColumn({name: 'id_usuario',})
   usuario: Usuario;
+
+  @OneToMany(()=>Cita, (cita)=>cita.paciente)
+  citas: Cita[];
 }

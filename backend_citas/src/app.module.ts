@@ -11,6 +11,7 @@ import { DoctorModule } from './doctor/doctor.module';
 import { PacienteModule } from './paciente/paciente.module';
 import { HorarioAtencionModule } from './horario_atencion/horario_atencion.module';
 import { ConsultorioModule } from './consultorio/consultorio.module';
+import { CitaModule } from './cita/cita.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ConsultorioModule } from './consultorio/consultorio.module';
     PacienteModule,
     HorarioAtencionModule,
     ConsultorioModule,
+    CitaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

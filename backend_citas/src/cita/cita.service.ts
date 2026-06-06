@@ -12,6 +12,7 @@ import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { HorarioAtencion } from 'src/horario_atencion/entities/horario_atencion.entity';
 import { Repository } from 'typeorm';
 import { DiaSemana } from 'src/horario_atencion/enums/dia_semana.enum';
+import { FilterCitaDto } from './dto/filter-cita.dto';
 
 @Injectable()
 export class CitaService {
@@ -169,8 +170,23 @@ export class CitaService {
     return await this.citaRepo.save(cita);
   }
 
-  async findAll() {
+  async findAll(filtros: FilterCitaDto) {
+    const where: any = {};
+
+    if (filtros.fecha) 
+      {where.fecha = filtros.fecha}
+
+    if (filtros.estado) 
+      {where.estado = filtros.estado}
+
+    if (filtros.doctor) 
+      {where.doctor = {id_doctor: filtros.doctor}}
+
+    if (filtros.paciente) 
+      {where.paciente = {id_paciente: filtros.paciente,}}
+
     return await this.citaRepo.find({
+      where,
       relations: {
         paciente: { usuario: true },
         doctor: { usuario: true, especialidad: true, consultorio: true },

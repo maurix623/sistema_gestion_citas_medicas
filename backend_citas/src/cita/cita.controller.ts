@@ -12,6 +12,7 @@ import {
 import { CitaService } from './cita.service';
 import { CreateCitaDto } from './dto/create-cita.dto';
 import { UpdateCitaDto } from './dto/update-cita.dto';
+import { FilterCitaDto } from './dto/filter-cita.dto';
 
 @Controller('cita')
 export class CitaController {
@@ -23,8 +24,8 @@ export class CitaController {
   }
 
   @Get()
-  findAll() {
-    return this.citaService.findAll();
+  findAll(@Query() filtros: FilterCitaDto) {
+    return this.citaService.findAll(filtros);
   }
 
   @Get('horarios-disponibles')

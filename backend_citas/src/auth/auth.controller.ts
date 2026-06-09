@@ -16,8 +16,7 @@ export class AuthController {
         return this.authService.login(loginDto, req);
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('ADMIN')
+    @UseGuards(JwtAuthGuard)
     @Get('perfil')
     getPerfil(@Request() req){
         return req.user; 

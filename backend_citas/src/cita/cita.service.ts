@@ -13,6 +13,8 @@ import { HorarioAtencion } from 'src/horario_atencion/entities/horario_atencion.
 import { Repository } from 'typeorm';
 import { DiaSemana } from 'src/horario_atencion/enums/dia_semana.enum';
 import { FilterCitaDto } from './dto/filter-cita.dto';
+import { SignoVital } from 'src/signo_vital/entities/signo_vital.entity';
+import { HistoriaClinica } from 'src/historia_clinica/entities/historia_clinica.entity';
 
 @Injectable()
 export class CitaService {
@@ -28,6 +30,12 @@ export class CitaService {
 
     @InjectRepository(HorarioAtencion)
     private readonly horarioRepo: Repository<HorarioAtencion>,
+
+    @InjectRepository(SignoVital)
+    private readonly signoVitalRepo: Repository<SignoVital>,
+
+    @InjectRepository(HistoriaClinica)
+    private readonly historiaClinicaRepo: Repository<HistoriaClinica>,
   ) {}
 
   private obtenerDiaSemana(fecha: Date): DiaSemana {
@@ -287,6 +295,24 @@ export class CitaService {
 
   async remove(id: number) {
     const cita = await this.findOne(id);
+
+    const signoVital = await this.signoVitalRepo.findOne({
+      where: { cita: { id_cita: cita.id_cita } },
+      relations: { cita: true },
+    });
+
+    if (signoVital) {
+      throw new ConflictException('La cita tiene signos vitales asociados');
+    }
+
+    const historiaClinica = await this.historiaClinicaRepo.findOne({
+      where: { cita: { id_cita: cita.id_cita } },
+      relations: { cita: true },
+    });
+
+    if (historiaClinica) {
+      throw new ConflictException('La cita tiene historia clinica asociada');
+    }
 
     return await this.citaRepo.softDelete(cita.id_cita);
   }

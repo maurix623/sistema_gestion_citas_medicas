@@ -1,17 +1,6 @@
 import { Cita } from 'src/cita/entities/cita.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
-
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  OneToOne,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
+import {Column,Entity,PrimaryGeneratedColumn,CreateDateColumn,UpdateDateColumn,DeleteDateColumn,OneToOne,JoinColumn,OneToMany,} from 'typeorm';
 
 @Entity()
 export class Paciente {

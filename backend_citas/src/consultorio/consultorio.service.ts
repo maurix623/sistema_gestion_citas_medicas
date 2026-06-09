@@ -8,12 +8,16 @@ import { UpdateConsultorioDto } from './dto/update-consultorio.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Consultorio } from './entities/consultorio.entity';
 import { Repository } from 'typeorm';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Injectable()
 export class ConsultorioService {
   constructor(
     @InjectRepository(Consultorio)
     private readonly consultorioRepo: Repository<Consultorio>,
+
+    @InjectRepository(Doctor)
+    private readonly doctorRepo: Repository<Doctor>,
   ) {}
   async create(createConsultorioDto: CreateConsultorioDto) {
     const consultorioExiste = await this.consultorioRepo.findOne({
@@ -56,6 +60,16 @@ export class ConsultorioService {
 
   async remove(id: number) {
     const consultorio = await this.findOne(id);
+
+    const doctorAsociado = await this.doctorRepo.findOne({
+      where: { consultorio: { id_consultorio: consultorio.id_consultorio } },
+      relations: { consultorio: true },
+    });
+
+    if (doctorAsociado) {
+      throw new ConflictException('El consultorio tiene doctores asociados');
+    }
+
     return await this.consultorioRepo.softDelete(consultorio.id_consultorio);
   }
 }

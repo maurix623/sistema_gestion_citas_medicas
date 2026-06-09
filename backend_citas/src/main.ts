@@ -12,12 +12,13 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  
-  app.useGlobalInterceptors(
-  new ClassSerializerInterceptor(
-    app.get(Reflector),
-  ),
-  );
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  });
 
   const port = process.env.PORT || 3000;
   await app.listen(port, '0.0.0.0');

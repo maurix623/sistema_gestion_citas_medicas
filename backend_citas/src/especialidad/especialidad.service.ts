@@ -1,15 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEspecialidadDto } from './dto/create-especialidad.dto';
 import { UpdateEspecialidadDto } from './dto/update-especialidad.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidad } from './entities/especialidad.entity';
 import { Repository } from 'typeorm';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Injectable()
 export class EspecialidadService {
   constructor(
     @InjectRepository(Especialidad)
     private readonly especialidadRepo: Repository<Especialidad>,
+
+    @InjectRepository(Doctor)
+    private readonly doctorRepo: Repository<Doctor>,
   ){};
 
   async create(createEspecialidadDto: CreateEspecialidadDto) {
@@ -35,6 +39,16 @@ export class EspecialidadService {
 
   async remove(id: number) {
     const especialidad = await this.findOne(id);
-    return await this.especialidadRepo.softDelete(id);
+
+    const doctorAsociado = await this.doctorRepo.findOne({
+      where: { especialidad: { id_especialidad: especialidad.id_especialidad } },
+      relations: { especialidad: true },
+    });
+
+    if (doctorAsociado) {
+      throw new ConflictException('La especialidad tiene doctores asociados');
+    }
+
+    return await this.especialidadRepo.softDelete(especialidad.id_especialidad);
   }
 }

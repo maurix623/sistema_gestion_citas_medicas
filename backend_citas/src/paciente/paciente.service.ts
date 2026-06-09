@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Paciente } from './entities/paciente.entity';
 import { Repository } from 'typeorm';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { Cita } from 'src/cita/entities/cita.entity';
 
 @Injectable()
 export class PacienteService {
@@ -13,7 +14,10 @@ export class PacienteService {
     private readonly pacienteRepo: Repository<Paciente>,
 
     @InjectRepository(Usuario)
-    private readonly usuarioRepo: Repository<Usuario>
+    private readonly usuarioRepo: Repository<Usuario>,
+
+    @InjectRepository(Cita)
+    private readonly citaRepo: Repository<Cita>,
   ){};
   async create(createPacienteDto: CreatePacienteDto) {
     const usuario = await this.usuarioRepo.findOne({
@@ -57,6 +61,16 @@ export class PacienteService {
 
   async remove(id: number) {
     const paciente = await this.findOne(id);
+
+    const citaAsociada = await this.citaRepo.findOne({
+      where: { paciente: { id_paciente: paciente.id_paciente } },
+      relations: { paciente: true },
+    });
+
+    if (citaAsociada) {
+      throw new ConflictException('El paciente tiene citas asociadas');
+    }
+
     return await this.pacienteRepo.softDelete(paciente.id_paciente);
   }
 }
